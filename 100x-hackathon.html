@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>100X 해커톤 | 최고의 프로덕트 빌더들을 세계 앞에</title>
+    <title>THE 해커톤 | 최고의 프로덕트 빌더들을 세계 앞에</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;700;900&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --black-void: #050505;
@@ -280,10 +280,11 @@
             color: var(--white-muted);
         }
 
-        .logo-x {
+        .logo-the {
             font-family: 'Noto Sans KR', sans-serif;
             font-weight: 900;
-            font-size: 24px;
+            font-size: 18px;
+            letter-spacing: -0.02em;
             color: var(--neon-green);
             position: relative;
             line-height: 1;
@@ -408,18 +409,28 @@
             animation: titleReveal 1.2s ease-out 0.5s forwards;
         }
 
-        .hero-title .x {
+        .hero-title .the-text {
             color: var(--neon-green);
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 900;
+            font-size: 1em;
+            letter-spacing: -0.02em;
             text-shadow:
                 0 0 40px var(--neon-green-glow),
                 0 0 80px var(--neon-green-glow);
             display: inline-block;
-            animation: pulse 3s ease-in-out infinite;
+            animation: theGlow 3s ease-in-out infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        @keyframes theGlow {
+            0%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 40px var(--neon-green-glow), 0 0 80px var(--neon-green-glow);
+            }
+            50% {
+                opacity: 0.9;
+                text-shadow: 0 0 60px var(--neon-green-glow), 0 0 120px var(--neon-green-glow);
+            }
         }
 
         .hero-subtitle {
@@ -1554,8 +1565,11 @@
         }
 
         .featured-title span {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 900;
             color: var(--neon-green);
             text-shadow: 0 0 40px var(--neon-green-glow);
+            letter-spacing: -0.02em;
         }
 
         .featured-divider {
@@ -2263,7 +2277,7 @@
             color: var(--neon-green);
         }
 
-        body.light-mode .logo-x {
+        body.light-mode .logo-the {
             color: var(--neon-green);
         }
 
@@ -2281,7 +2295,7 @@
             opacity: 0.8;
         }
 
-        body.light-mode .hero-title .x {
+        body.light-mode .hero-title .the-text {
             color: var(--neon-green);
             text-shadow:
                 0 0 30px var(--neon-green-glow),
@@ -2534,7 +2548,7 @@
         }
 
         /* Exclude animations from transition */
-        body .hero-title .x,
+        body .hero-title .the-text,
         body .timeline-year.present .year,
         body .timeline-year.present .year-glow,
         body [data-animate] {
@@ -2561,7 +2575,7 @@
 
         <div class="nav-section nav-contact">
             <span class="nav-label">CONTACT</span>
-            <a href="mailto:hello@100xhackathon.com" class="nav-email">HELLO@100XHACKATHON.COM</a>
+            <a href="mailto:hello@thehackathon.com" class="nav-email">HELLO@THEHACKATHON.COM</a>
         </div>
 
         <div class="nav-section nav-social">
@@ -2576,7 +2590,7 @@
         </div>
 
         <div class="nav-section nav-logo">
-            <div class="logo-x">X</div>
+            <div class="logo-the">THE</div>
         </div>
 
         <div class="theme-toggle-wrapper">
@@ -2608,7 +2622,7 @@
         <div class="hero-code-label">
             <span class="code-comment">// The Next Generation of Builders</span>
         </div>
-        <h1 class="hero-title"><span class="count-up" data-target="100">0</span><span class="x">X</span> 해커톤</h1>
+        <h1 class="hero-title"><span class="the-text">THE</span> 해커톤</h1>
         <p class="hero-subtitle">
             <span class="code-prompt">→</span> 최고의 프로덕트 빌더들을 세계 앞에 세웁니다
         </p>
@@ -2765,13 +2779,13 @@
             </div>
         </div>
 
-        <!-- 100X Featured Card - Extended Climax -->
+        <!-- THE Featured Card - Extended Climax -->
         <div class="featured-showcase climax" data-animate>
             <div class="featured-glow"></div>
             <div class="featured-scanlines"></div>
             <div class="featured-content">
                 <div class="featured-year">2026</div>
-                <h3 class="featured-title">100<span>X</span> 해커톤</h3>
+                <h3 class="featured-title"><span>THE</span> 해커톤</h3>
                 <div class="featured-divider"></div>
                 <p class="featured-result"><strong>프로덕트 빌더</strong>를 세계 앞에 세웁니다</p>
                 <div class="featured-tagline">
