@@ -1,0 +1,302 @@
+/* ============================================
+   MATRIX VISUAL EFFECTS - effects.css
+   THE Hackathon Visual Effects
+   ============================================ */
+
+/* ============================================
+   1. SCANLINES OVERLAY (CRT Effect)
+   ============================================ */
+.scanlines-enabled::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.03),
+        rgba(0, 0, 0, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 9998;
+}
+
+/* Stronger scanlines on hover for dramatic effect */
+.scanlines-enabled.scanlines-strong::after {
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.08),
+        rgba(0, 0, 0, 0.08) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+}
+
+/* ============================================
+   2. THE LOGO GLITCH EFFECT
+   ============================================ */
+.the-text {
+    position: relative;
+    display: inline-block;
+}
+
+/* Glitch animation keyframes */
+@keyframes glitch {
+    0% {
+        text-shadow: 2px 0 #00ff88, -2px 0 #ff0055;
+        transform: translate(0);
+    }
+    20% {
+        text-shadow: -3px 0 #00ff88, 3px 0 #0088ff;
+        transform: translate(-2px, 1px);
+    }
+    40% {
+        text-shadow: 3px 2px #ff0055, -3px -2px #00ff88;
+        transform: translate(2px, -1px);
+    }
+    60% {
+        text-shadow: -2px -1px #0088ff, 2px 1px #ff0055;
+        transform: translate(1px, 2px);
+    }
+    80% {
+        text-shadow: 2px 0 #00ff88, -2px 0 #0088ff;
+        transform: translate(-1px, -1px);
+    }
+    100% {
+        text-shadow: 2px 0 #00ff88, -2px 0 #ff0055;
+        transform: translate(0);
+    }
+}
+
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); }
+    20% { transform: skew(-2deg); }
+    40% { transform: skew(1deg); }
+    60% { transform: skew(-1deg); }
+    80% { transform: skew(2deg); }
+    100% { transform: skew(0deg); }
+}
+
+/* Glitch effect on hover */
+.glitch-enabled .the-text:hover {
+    animation: glitch 0.3s ease-in-out infinite;
+}
+
+/* Auto glitch class (applied via JS) */
+.glitch-enabled .the-text.auto-glitch {
+    animation: glitch 0.4s ease-in-out;
+}
+
+/* Glitch pseudo-elements for layered effect */
+.glitch-enabled .the-text::before,
+.glitch-enabled .the-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.glitch-enabled .the-text:hover::before {
+    opacity: 0.8;
+    color: #00ff88;
+    animation: glitch-skew 0.2s ease-in-out infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    transform: translate(-3px, -2px);
+}
+
+.glitch-enabled .the-text:hover::after {
+    opacity: 0.8;
+    color: #ff0055;
+    animation: glitch-skew 0.3s ease-in-out infinite reverse;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    transform: translate(3px, 2px);
+}
+
+/* ============================================
+   3. TYPING ANIMATION (Subtitle)
+   ============================================ */
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background-color: #00ff88;
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    animation: cursor-blink 0.7s step-end infinite;
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Hide original text during typing */
+.typing-target {
+    visibility: hidden;
+}
+
+.typing-target.typing-complete {
+    visibility: visible;
+}
+
+/* ============================================
+   4. BUTTON GLOW PULSE EFFECT
+   ============================================ */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow:
+            0 0 5px rgba(0, 255, 136, 0.4),
+            0 0 10px rgba(0, 255, 136, 0.2),
+            inset 0 0 10px rgba(0, 255, 136, 0.1);
+    }
+    50% {
+        box-shadow:
+            0 0 15px rgba(0, 255, 136, 0.6),
+            0 0 30px rgba(0, 255, 136, 0.4),
+            0 0 45px rgba(0, 255, 136, 0.2),
+            inset 0 0 15px rgba(0, 255, 136, 0.2);
+    }
+}
+
+.glow-enabled .cta-primary {
+    animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+.glow-enabled .cta-primary:hover {
+    animation: none;
+    box-shadow:
+        0 0 20px rgba(0, 255, 136, 0.8),
+        0 0 40px rgba(0, 255, 136, 0.5),
+        0 0 60px rgba(0, 255, 136, 0.3),
+        inset 0 0 20px rgba(0, 255, 136, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+/* ============================================
+   5. TEXT DECODE EFFECT
+   ============================================ */
+.decode-target {
+    display: inline;
+}
+
+.decode-target.decoding {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* ============================================
+   6. MOUSE TRAIL EFFECT
+   ============================================ */
+.mouse-trail-particle {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, #00ff88 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    mix-blend-mode: screen;
+}
+
+/* ============================================
+   7. ENHANCED MATRIX RAIN (via JS canvas)
+   ============================================ */
+.matrix-enhanced .matrix-bg {
+    opacity: 0.15;
+}
+
+/* ============================================
+   MOBILE OPTIMIZATIONS
+   ============================================ */
+@media (max-width: 768px) {
+    /* Disable heavy effects on mobile */
+    .scanlines-enabled::after {
+        display: none;
+    }
+
+    .mouse-trail-particle {
+        display: none;
+    }
+
+    .glitch-enabled .the-text:hover {
+        animation: none;
+    }
+
+    .glitch-enabled .the-text::before,
+    .glitch-enabled .the-text::after {
+        display: none;
+    }
+
+    .glow-enabled .cta-primary {
+        animation: none;
+    }
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .glitch-enabled .the-text:hover,
+    .glitch-enabled .the-text.auto-glitch,
+    .glow-enabled .cta-primary {
+        animation: none;
+    }
+
+    .typing-cursor {
+        animation: none;
+        opacity: 1;
+    }
+
+    .scanlines-enabled::after {
+        display: none;
+    }
+}
+
+/* ============================================
+   LIGHT MODE ADJUSTMENTS
+   ============================================ */
+body.light-mode .typing-cursor {
+    background-color: #00cc6a;
+}
+
+body.light-mode .glitch-enabled .the-text:hover::before {
+    color: #00cc6a;
+}
+
+body.light-mode.scanlines-enabled::after {
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.02),
+        rgba(0, 0, 0, 0.02) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+}
+
+body.light-mode .mouse-trail-particle {
+    background: radial-gradient(circle, #00cc6a 0%, transparent 70%);
+}
+
+body.light-mode .glow-enabled .cta-primary {
+    animation-name: pulse-glow-light;
+}
+
+@keyframes pulse-glow-light {
+    0%, 100% {
+        box-shadow:
+            0 0 5px rgba(0, 180, 100, 0.3),
+            0 0 10px rgba(0, 180, 100, 0.15);
+    }
+    50% {
+        box-shadow:
+            0 0 15px rgba(0, 180, 100, 0.5),
+            0 0 30px rgba(0, 180, 100, 0.3),
+            0 0 45px rgba(0, 180, 100, 0.15);
+    }
+}

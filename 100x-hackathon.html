@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;700;900&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="effects.css">
     <style>
         :root {
             --black-void: #050505;
@@ -2542,6 +2543,367 @@
         body [data-animate] {
             transition: none;
         }
+
+        /* ============================================
+           MATRIX VISUAL EFFECTS
+           ============================================ */
+
+        /* Scanlines Overlay */
+        .scanlines-active::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.03),
+                rgba(0, 0, 0, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* THE Glitch Effect */
+        @keyframes glitch-anim {
+            0% {
+                text-shadow: 2px 0 #00ff88, -2px 0 #ff0055;
+                transform: translate(0);
+            }
+            20% {
+                text-shadow: -3px 0 #00ff88, 3px 0 #0088ff;
+                transform: translate(-2px, 1px);
+            }
+            40% {
+                text-shadow: 3px 2px #ff0055, -3px -2px #00ff88;
+                transform: translate(2px, -1px);
+            }
+            60% {
+                text-shadow: -2px -1px #0088ff, 2px 1px #ff0055;
+                transform: translate(1px, 2px);
+            }
+            80% {
+                text-shadow: 2px 0 #00ff88, -2px 0 #0088ff;
+                transform: translate(-1px, -1px);
+            }
+            100% {
+                text-shadow: 2px 0 #00ff88, -2px 0 #ff0055;
+                transform: translate(0);
+            }
+        }
+
+        .the-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .the-text:hover {
+            animation: glitch-anim 0.3s ease-in-out infinite;
+        }
+
+        .the-text.glitching {
+            animation: glitch-anim 0.4s ease-in-out;
+        }
+
+        /* Typing Cursor */
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background-color: #00ff88;
+            margin-left: 4px;
+            vertical-align: text-bottom;
+            animation: cursor-blink 0.7s step-end infinite;
+        }
+
+        @keyframes cursor-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Button Glow Pulse */
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow:
+                    0 0 5px rgba(0, 255, 136, 0.4),
+                    0 0 10px rgba(0, 255, 136, 0.2),
+                    inset 0 0 10px rgba(0, 255, 136, 0.1);
+            }
+            50% {
+                box-shadow:
+                    0 0 20px rgba(0, 255, 136, 0.7),
+                    0 0 40px rgba(0, 255, 136, 0.4),
+                    0 0 60px rgba(0, 255, 136, 0.2),
+                    inset 0 0 15px rgba(0, 255, 136, 0.2);
+            }
+        }
+
+        .glow-active .cta-primary {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .glow-active .cta-primary:hover {
+            animation: none;
+            box-shadow:
+                0 0 25px rgba(0, 255, 136, 0.9),
+                0 0 50px rgba(0, 255, 136, 0.6),
+                0 0 75px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Mouse Trail Particles */
+        .trail-particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #00ff88 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9997;
+            mix-blend-mode: screen;
+        }
+
+        /* Decode Effect */
+        .decoding {
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        /* ============================================
+           BOOT SEQUENCE STYLES
+           ============================================ */
+
+        .boot-container {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            padding: 60px 50px;
+            margin: 0 auto;
+        }
+
+        /* Phase 1: Frame */
+        .boot-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .frame-line {
+            stroke-dasharray: 398;
+            stroke-dashoffset: 398;
+            transition: none;
+        }
+
+        .frame-line.drawing {
+            animation: frame-draw 0.8s ease-out forwards;
+        }
+
+        @keyframes frame-draw {
+            0% { stroke-dashoffset: 398; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        /* Phase 2: Year */
+        .boot-year {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(14px, 2vw, 18px);
+            color: var(--neon-green);
+            margin-bottom: 20px;
+            opacity: 0;
+            min-height: 1.5em;
+        }
+
+        .boot-year.visible {
+            opacity: 1;
+        }
+
+        .year-cursor {
+            animation: cursor-blink 0.7s step-end infinite;
+        }
+
+        .year-cursor.hidden {
+            opacity: 0;
+            animation: none;
+        }
+
+        /* Phase 3: Main Title */
+        .boot-title {
+            font-size: clamp(48px, 12vw, 140px);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 30px;
+            opacity: 0;
+            min-height: 1.2em;
+        }
+
+        .boot-title.visible {
+            opacity: 1;
+        }
+
+        .title-the {
+            color: var(--neon-green);
+            margin-right: 0.1em;
+            display: inline-block;
+        }
+
+        .title-hackathon {
+            color: var(--white);
+            display: inline-block;
+        }
+
+        .title-the.decoding,
+        .title-hackathon.decoding {
+            text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+        }
+
+        .boot-title.glitch-flash {
+            animation: title-glitch 0.15s ease-in-out;
+        }
+
+        @keyframes title-glitch {
+            0% { transform: translate(0); filter: none; }
+            20% { transform: translate(-3px, 2px); filter: hue-rotate(90deg); }
+            40% { transform: translate(3px, -2px); filter: hue-rotate(-90deg); }
+            60% { transform: translate(-2px, -1px); filter: hue-rotate(45deg); }
+            80% { transform: translate(2px, 1px); filter: hue-rotate(-45deg); }
+            100% { transform: translate(0); filter: none; }
+        }
+
+        /* Phase 4: Divider */
+        .boot-divider {
+            height: 1px;
+            background: var(--neon-green);
+            margin: 30px 0;
+            transform: scaleX(0);
+            transform-origin: center;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .boot-divider.drawing {
+            animation: divider-expand 0.4s ease-out forwards;
+        }
+
+        @keyframes divider-expand {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
+        /* Phase 5: Subcopy */
+        .boot-subcopy {
+            font-size: clamp(18px, 3vw, 28px);
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 20px;
+            opacity: 0;
+            min-height: 1.5em;
+        }
+
+        .boot-subcopy.visible {
+            opacity: 1;
+        }
+
+        .subcopy-highlight {
+            color: var(--neon-green);
+            font-weight: 700;
+        }
+
+        .subcopy-highlight.decoding {
+            text-shadow: 0 0 8px var(--neon-green);
+        }
+
+        /* Phase 6: Bottom Text */
+        .boot-bottom {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(14px, 1.8vw, 18px);
+            color: var(--white-dim);
+            opacity: 0;
+            min-height: 1.5em;
+        }
+
+        .boot-bottom.visible {
+            opacity: 1;
+        }
+
+        .bottom-arrow {
+            color: var(--neon-green);
+        }
+
+        .bottom-cursor {
+            color: var(--neon-green);
+            animation: cursor-blink 0.7s step-end infinite;
+        }
+
+        /* CRT Flash Effect */
+        .boot-container.crt-flash::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-green);
+            opacity: 0;
+            animation: crt-flash 0.1s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes crt-flash {
+            0% { opacity: 0.3; }
+            100% { opacity: 0; }
+        }
+
+        /* Final Glitch */
+        .boot-container.final-glitch {
+            animation: final-glitch 0.15s ease-in-out;
+        }
+
+        @keyframes final-glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-4px, 2px) skew(-1deg); }
+            40% { transform: translate(4px, -2px) skew(1deg); }
+            60% { transform: translate(-2px, -1px) skew(-0.5deg); }
+            80% { transform: translate(2px, 1px) skew(0.5deg); }
+            100% { transform: translate(0) skew(0); }
+        }
+
+        /* Visual Beep/Pulse */
+        .boot-container .pulse-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .boot-container .pulse-indicator.pulse {
+            animation: visual-beep 0.2s ease-out;
+        }
+
+        @keyframes visual-beep {
+            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px var(--neon-green); }
+            100% { opacity: 0; transform: scale(1.5); box-shadow: 0 0 20px var(--neon-green); }
+        }
+
+        @media (max-width: 768px) {
+            .scanlines-active::after { display: none; }
+            .trail-particle { display: none; }
+            .the-text:hover { animation: none; }
+
+            .boot-container {
+                padding: 40px 30px;
+            }
+
+            .boot-title {
+                font-size: 48px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2602,22 +2964,48 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section - Boot Sequence -->
     <section class="hero">
         <div class="hero-bg"></div>
         <div class="hero-grid"></div>
 
-        <div class="hero-code-label">
-            <span class="code-comment">// T.H.E = The Historic Event</span>
+        <!-- Boot Container with Frame -->
+        <div class="boot-container">
+            <!-- Phase 1: Animated Frame -->
+            <svg class="boot-frame" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <rect class="frame-line" x="0.5" y="0.5" width="99" height="99" fill="none" stroke="#00ff88" stroke-width="0.3"/>
+            </svg>
+
+            <div class="boot-content">
+                <!-- Phase 2: Year -->
+                <div class="boot-year">
+                    <span class="year-text"></span>
+                    <span class="year-cursor">|</span>
+                </div>
+
+                <!-- Phase 3: Main Title -->
+                <h1 class="boot-title">
+                    <span class="title-the" data-text="THE"></span>
+                    <span class="title-hackathon" data-text="해커톤"></span>
+                </h1>
+
+                <!-- Phase 4: Divider Line -->
+                <div class="boot-divider"></div>
+
+                <!-- Phase 5: Subcopy -->
+                <p class="boot-subcopy">
+                    <span class="subcopy-highlight"></span>
+                    <span class="subcopy-rest"></span>
+                </p>
+
+                <!-- Phase 6: Bottom Text -->
+                <p class="boot-bottom">
+                    <span class="bottom-arrow"></span>
+                    <span class="bottom-text"></span>
+                    <span class="bottom-cursor">|</span>
+                </p>
+            </div>
         </div>
-        <h1 class="hero-title"><span class="the-text">THE</span> 해커톤</h1>
-        <p class="hero-subtitle">
-            <span class="code-prompt">→</span> A Historic Turning Point for Builders
-        </p>
-        <a href="#apply" class="cta-primary">
-            참가 신청하기
-            <span class="cta-arrow">→</span>
-        </a>
 
         <div class="scroll-indicator">
             <span>Scroll</span>
@@ -2627,7 +3015,7 @@
 
     <!-- Why Now Section -->
     <section class="why-now">
-        <div class="section-label">Why Now</div>
+        <div class="section-label" data-decode data-original="Why Now">Why Now</div>
 
         <div class="terminal-block" data-animate>
             <div class="terminal-header">
@@ -2801,7 +3189,7 @@
 
     <!-- Team Section with Network Visualization -->
     <section class="team">
-        <div class="section-label">Team</div>
+        <div class="section-label" data-decode data-original="Team">Team</div>
 
         <!-- Network Background Canvas -->
         <canvas id="networkCanvas" class="network-canvas"></canvas>
@@ -3412,6 +3800,249 @@
                 localStorage.setItem('theme', 'dark');
             }
         });
+
+        // ============================================
+        // MATRIX VISUAL EFFECTS
+        // ============================================
+
+        // 1. Enable Scanlines
+        document.body.classList.add('scanlines-active');
+
+        // 2. Enable Button Glow
+        document.body.classList.add('glow-active');
+
+        // 3. Text Decode Effect on Scroll (for other sections)
+        const decodeTargets = document.querySelectorAll('[data-decode]');
+        const decodeChars = 'ㄱㄴㄷㄹㅁㅂㅅㅇ01ABCDEF!@#$%'.split('');
+
+        const decodeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('decoded')) {
+                    decodeTextGeneral(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        decodeTargets.forEach(el => decodeObserver.observe(el));
+
+        async function decodeTextGeneral(element) {
+            const original = element.getAttribute('data-original') || element.textContent;
+            const length = original.length;
+            element.classList.add('decoding');
+
+            for (let i = 0; i <= 10; i++) {
+                let text = '';
+                for (let j = 0; j < length; j++) {
+                    if (j < length * (i / 10)) {
+                        text += original[j];
+                    } else {
+                        text += decodeChars[Math.floor(Math.random() * decodeChars.length)];
+                    }
+                }
+                element.textContent = text;
+                await new Promise(r => setTimeout(r, 80));
+            }
+
+            element.textContent = original;
+            element.classList.remove('decoding');
+            element.classList.add('decoded');
+        }
+
+        // 4. Mouse Trail Effect (Desktop only)
+        if (window.innerWidth > 768) {
+            const particles = [];
+            const particleCount = 8;
+
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'trail-particle';
+                p.style.opacity = 1 - (i / particleCount) * 0.8;
+                p.style.transform = `scale(${1 - (i / particleCount) * 0.5})`;
+                document.body.appendChild(p);
+                particles.push({ el: p, x: 0, y: 0 });
+            }
+
+            let mouseX = 0, mouseY = 0;
+            document.addEventListener('mousemove', e => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animateTrail() {
+                let prevX = mouseX, prevY = mouseY;
+                particles.forEach((p, i) => {
+                    const ease = 0.25 - (i * 0.02);
+                    p.x += (prevX - p.x) * ease;
+                    p.y += (prevY - p.y) * ease;
+                    p.el.style.left = p.x + 'px';
+                    p.el.style.top = p.y + 'px';
+                    prevX = p.x;
+                    prevY = p.y;
+                });
+                requestAnimationFrame(animateTrail);
+            }
+            animateTrail();
+        }
+
+        // ============================================
+        // BOOT SEQUENCE
+        // ============================================
+        class BootSequence {
+            constructor() {
+                this.container = document.querySelector('.boot-container');
+                if (!this.container) return;
+
+                this.elements = {
+                    frame: document.querySelector('.frame-line'),
+                    year: document.querySelector('.boot-year'),
+                    yearText: document.querySelector('.year-text'),
+                    yearCursor: document.querySelector('.year-cursor'),
+                    title: document.querySelector('.boot-title'),
+                    titleThe: document.querySelector('.title-the'),
+                    titleHackathon: document.querySelector('.title-hackathon'),
+                    divider: document.querySelector('.boot-divider'),
+                    subcopy: document.querySelector('.boot-subcopy'),
+                    subcopyHighlight: document.querySelector('.subcopy-highlight'),
+                    subcopyRest: document.querySelector('.subcopy-rest'),
+                    bottom: document.querySelector('.boot-bottom'),
+                    bottomArrow: document.querySelector('.bottom-arrow'),
+                    bottomText: document.querySelector('.bottom-text'),
+                    bottomCursor: document.querySelector('.bottom-cursor')
+                };
+
+                this.scrambleChars = 'ㅎㄷㄱㅈㅋㅌㅍㅁㄴㅇㄹㅂㅅABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%'.split('');
+
+                // Add pulse indicator
+                this.pulseIndicator = document.createElement('div');
+                this.pulseIndicator.className = 'pulse-indicator';
+                this.container.appendChild(this.pulseIndicator);
+
+                this.started = false;
+            }
+
+            pulse() {
+                this.pulseIndicator.classList.remove('pulse');
+                void this.pulseIndicator.offsetWidth; // Force reflow
+                this.pulseIndicator.classList.add('pulse');
+            }
+
+            async typeText(element, text, speed = 100) {
+                for (let i = 0; i < text.length; i++) {
+                    element.textContent += text[i];
+                    await this.sleep(speed);
+                }
+            }
+
+            async decodeText(element, finalText, iterations = 8) {
+                element.classList.add('decoding');
+                const length = finalText.length;
+
+                for (let i = 0; i <= iterations; i++) {
+                    let text = '';
+                    for (let j = 0; j < length; j++) {
+                        if (j < Math.floor(length * (i / iterations))) {
+                            text += finalText[j];
+                        } else {
+                            text += this.scrambleChars[Math.floor(Math.random() * this.scrambleChars.length)];
+                        }
+                    }
+                    element.textContent = text;
+                    await this.sleep(80 + Math.random() * 40);
+                }
+
+                element.textContent = finalText;
+                element.classList.remove('decoding');
+            }
+
+            sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            async start() {
+                if (this.started || !this.container) return;
+                this.started = true;
+
+                // Initial CRT flash
+                this.container.classList.add('crt-flash');
+                await this.sleep(100);
+                this.container.classList.remove('crt-flash');
+
+                // Phase 1: Frame Draw (0ms)
+                this.pulse();
+                this.elements.frame.classList.add('drawing');
+
+                // Phase 2: Year (600ms)
+                await this.sleep(600);
+                this.pulse();
+                this.elements.year.classList.add('visible');
+                await this.typeText(this.elements.yearText, '2026', 100);
+                await this.sleep(200);
+                this.elements.yearCursor.classList.add('hidden');
+
+                // Phase 3: Main Title Decode (900ms from start, 300ms from year end)
+                await this.sleep(100);
+                this.pulse();
+                this.elements.title.classList.add('visible');
+
+                // Decode THE first
+                await this.decodeText(this.elements.titleThe, 'THE', 6);
+                await this.sleep(100);
+
+                // Then decode 해커톤
+                await this.decodeText(this.elements.titleHackathon, '해커톤', 8);
+
+                // Glitch flash on completion
+                this.elements.title.classList.add('glitch-flash');
+                await this.sleep(150);
+                this.elements.title.classList.remove('glitch-flash');
+
+                // Phase 4: Divider Line (2000ms from start)
+                await this.sleep(200);
+                this.pulse();
+                this.elements.divider.classList.add('drawing');
+
+                // Phase 5: Subcopy (2300ms from start)
+                await this.sleep(300);
+                this.pulse();
+                this.elements.subcopy.classList.add('visible');
+
+                // Decode highlight part
+                await this.decodeText(this.elements.subcopyHighlight, '프로덕트 빌더', 6);
+                this.elements.subcopyRest.textContent = '를 세계 앞에 세웁니다';
+
+                // Phase 6: Bottom Text (2600ms from start)
+                await this.sleep(300);
+                this.pulse();
+                this.elements.bottom.classList.add('visible');
+                this.elements.bottomArrow.textContent = '→ ';
+                await this.typeText(this.elements.bottomText, '48시간, 당신의 아이디어가 세상과 만나는 순간', 35);
+
+                // Final Glitch (3200ms from start)
+                await this.sleep(200);
+                this.container.classList.add('final-glitch');
+                await this.sleep(150);
+                this.container.classList.remove('final-glitch');
+
+                // Sequence complete - keep bottom cursor blinking
+            }
+        }
+
+        // Initialize and start boot sequence on page load
+        const bootSequence = new BootSequence();
+
+        // Use Intersection Observer to trigger boot sequence
+        const heroSection = document.querySelector('.hero');
+        if (heroSection && bootSequence.container) {
+            const bootObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    bootSequence.start();
+                    bootObserver.disconnect();
+                }
+            }, { threshold: 0.3 });
+
+            bootObserver.observe(heroSection);
+        }
+
     </script>
 </body>
 </html>
